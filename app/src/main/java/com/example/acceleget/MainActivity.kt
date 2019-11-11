@@ -1,14 +1,15 @@
 package com.example.acceleget
 
+import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
 class MainActivity : AppCompatActivity() ,SensorEventListener {
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
@@ -25,6 +26,14 @@ class MainActivity : AppCompatActivity() ,SensorEventListener {
 
     override fun onRestart() {
         super.onRestart()
-        val
+        val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        val accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        sensorManager.registerListener(this, accelerometer , SensorManager.SENSOR_DELAY_NORMAL)
+    }
+
+    override fun onPause(){
+        super.onPause()
+        val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        sensorManager.unregisterListener(this)
     }
 }
